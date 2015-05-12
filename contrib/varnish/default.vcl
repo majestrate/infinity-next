@@ -46,7 +46,7 @@ sub vcl_recv {
         }
 
         # cache threads
-        if (req.url ~ "thread") {
+        if (req.method == "GET") {
                 return(hash);
         }
 }
