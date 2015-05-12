@@ -51,18 +51,3 @@ sub vcl_backend_fetch {
         # deal with 'sick' backends
         set beresp.grace = 1h;
 }
-
-
-sub vcl_hit {
-        # 'manual' purge
-        if (req.method == "PURGE") {
-                return (purge);
-        }
-}
-
-sub vcl_miss {
-        # 'manual' purge
-        if (req.method == "PURGE") {
-                return (purge);
-        }
-}
