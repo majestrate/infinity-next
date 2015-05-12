@@ -26,6 +26,7 @@ sub vcl_recv {
 
         # set x-forwarded for header
         set req.http.X-Forwarded-For = client.ip;
+        unset req.http.cache_control;
         
         # don't cache images
         if (req.url ~ "\.(png|jpg|gif|jpeg|webm)$") {
