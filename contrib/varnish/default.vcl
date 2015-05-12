@@ -26,7 +26,7 @@ sub vcl_recv {
         }
         
         # allow purge from only localhost
-        if (req.request == "PURGE") {
+        if (req.method == "PURGE") {
                 if (!client.ip ~ purge) {
                         return(synth(405 "Not allowed."));
                 }
