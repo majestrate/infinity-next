@@ -54,7 +54,6 @@ sub vcl_recv {
 # store in cache only by url, not backend host
 sub vcl_hash {
         hash_data(req.url);
-        return (lookup);
 }
 
 sub vcl_deliver {
