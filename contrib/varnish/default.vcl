@@ -30,6 +30,11 @@ sub vcl_recv {
         
         # don't cache images
         if (req.url ~ "\.(png|jpg|gif|jpeg|webm)$") {
+                # check for file redirector
+                # don't skip cache for that
+                if (req.url ~ "/file/") {
+                        return (hash);
+                }
                 return (pass);
         }
         
