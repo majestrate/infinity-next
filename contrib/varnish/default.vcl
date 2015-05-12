@@ -48,11 +48,16 @@ sub vcl_hash {
         return (lookup);
 }
 
-sub vcl_hit {
+sub vcl_fetch {
         set beresp.ttl = 60s;
         if (beresp.ttl <= 0s) {
                 set beresp.ttl = 60s;
         }
+        return (deliver);
+}
+
+sub vcl_hit {
+        
         return (deliver);
 }
 
