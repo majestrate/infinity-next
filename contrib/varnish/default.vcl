@@ -56,15 +56,13 @@ sub vcl_backend_fetch {
 sub vcl_hit {
         # 'manual' purge
         if (req.method == "PURGE") {
-                purge;
-                error 200 "Purged.";
+                return (purge);
         }
 }
 
 sub vcl_miss {
         # 'manual' purge
         if (req.method == "PURGE") {
-                purge;
-                error 404 "Not in cache.";
+                return (purge);
         }
 }
