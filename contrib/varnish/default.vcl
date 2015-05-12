@@ -35,6 +35,10 @@ sub vcl_recv {
                 if (req.url ~ "/file/") {
                         return (hash);
                 }
+                # don't cache control panel
+                if (req.url ~ "/cp/") {
+                        return (hash);
+                }
                 return (pass);
         }
         
