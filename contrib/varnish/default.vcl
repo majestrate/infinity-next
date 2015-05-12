@@ -65,8 +65,5 @@ sub vcl_miss {
 }
 
 sub vcl_hit {
-        if (obj.ttl >= 0s ) {
-                return(deliver);
-        }
-        return (fetch);
+        return(deliver);
 }
