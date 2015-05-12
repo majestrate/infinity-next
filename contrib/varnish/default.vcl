@@ -44,7 +44,9 @@ sub vcl_recv {
         if (req.method == "POST") {
                 return (pass);
         }
-        if (req.url ~ thread) {
+
+        # cache threads
+        if (req.url ~ "thread") {
                 return(hash);
         }
 }
