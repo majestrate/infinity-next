@@ -44,7 +44,9 @@ sub vcl_recv {
         if (req.method == "POST") {
                 return (pass);
         }
-        return(hash);
+        if (req.url ~ thread) {
+                return(hash);
+        }
 }
 
 # store in cache only by url, not backend host
