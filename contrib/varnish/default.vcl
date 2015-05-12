@@ -32,5 +32,5 @@ sub vcl_recv {
                 }
                 return (purge);
         }
-        return(lookup);
+        return(hash);
 }
