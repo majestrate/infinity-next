@@ -48,12 +48,9 @@ sub vcl_hash {
         return (lookup);
 }
 
-sub vcl_backend_fetch {
+sub vcl_backend_response {
         # ttl is 60 seconds
-        if (beresp.ttl <= 0s) {
-                set beresp.ttl = 60s;
-        }
-        return (fetch);
+        set beresp.ttl = 60s;
 }
 
 sub vcl_hit {
