@@ -13,7 +13,7 @@ server {
     
     location / {
         if (!-e $request_filename ) {
-            expires off;
+            expires 60s;
             rewrite ^/(.*)$ /index.php?/$1 last;
             break;
         }
