@@ -8,6 +8,13 @@ backend default {
         # from nginx config
         .host = "127.0.0.1";
         .port = "8080";
+        .probe = {
+                .interval = 5s;
+                .timeout = 250ms;
+                .window = 3;
+                .threshold = 2;
+        }
+        
 }
 
 # only allow localhost to purge the cache
@@ -37,6 +44,7 @@ sub vcl_recv {
         if (req.method == "POST") {
                 return (pass);
         }
+        
 }
 
 # store in cache only by url, not backend host
