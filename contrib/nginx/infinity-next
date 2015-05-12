@@ -1,11 +1,15 @@
+
+log_format varnish '$http_x_forwarded_for - "$request" $status $body_bytes_sent "$http_referer" "$http_user_agent"';
+
 server {
 
-    # change me
-    listen 127.0.0.1:80;
+    listen 127.0.0.1:8080;
     
     root /srv/http/infinity-next/public;
     index index.php;
     server_name infinity;
+
+    access_log on varnish;
     
     location / {
         if (!-e $request_filename ) {
