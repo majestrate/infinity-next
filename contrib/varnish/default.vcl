@@ -32,5 +32,25 @@ sub vcl_recv {
                 }
                 return (purge);
         }
+
+        # don't cache post
+        if (req.method == "POST") {
+                return (pass);
+        }
+
+        # check cache
         return(hash);
+}
+
+
+sub vcl_hash {
+        return (lookup);
+}
+
+sub vcl_hit {
+        return (deliver);
+}
+
+sub vcl_miss {
+        return (fetch);
 }
