@@ -37,14 +37,6 @@ sub vcl_recv {
         if (req.method == "POST") {
                 return (pass);
         }
-
-        # extra ttl for cached objects based on backend health
-        if (!req.backend.healthy) {
-                set req.grace = 1h;
-        } else {
-                set req.grace = 15s;
-        }
-
 }
 
 # store in cache only by url, not backend host
