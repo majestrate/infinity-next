@@ -38,26 +38,41 @@ sub vcl_recv {
                 return (pass);
         }
 
-        # check cache
-        return(hash);
+        # extra ttl for cached objects based on backend health
+        if (!req.backend.healthy) {
+                set req.grace = 1h;
+        } else {
+                set req.grace = 15s;
+        }
+
 }
 
-
+# store in cache only by url, not backend host
 sub vcl_hash {
         hash_data(req.url);
-        return (lookup);
+        return (hash);
 }
 
-sub vcl_backend_response {
-        # ttl is 60 seconds
-        set beresp.ttl = 60s;
+sub vcl_fetch {
+        # max time to keep an item in the cache past its ttl
+        # used in conjunction with code in vcl_recv to
+        # deal with 'sick' backends
+        set beresp.grace = 1h;
 }
+
 
 sub vcl_hit {
-        
-        return (deliver);
+        # 'manual' purge
+        if (req.request == "PURGE") {
+                purge;
+                error 200 "Purged.";
+        }
 }
 
 sub vcl_miss {
-        return (fetch);
+        # 'manual' purge
+        if (req.request == "PURGE") {
+                purge;
+                error 404 "Not in cache.";
+        }
 }
