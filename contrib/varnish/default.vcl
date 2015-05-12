@@ -45,7 +45,7 @@ sub vcl_hash {
         return (lookup);
 }
 
-sub vcl_backend_fetch {
+sub vcl_backend_response {
         # max time to keep an item in the cache past its ttl
         # used in conjunction with code in vcl_recv to
         # deal with 'sick' backends
