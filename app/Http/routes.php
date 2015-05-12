@@ -88,3 +88,12 @@ Route::group([
 	// More complicated /board/view requests.
 	Route::controller('', 'BoardController');
 });
+
+
+
+// force no caching
+Route::filter('after', function($response) {
+	// No caching for pages
+	$response->header("Pragma", "no-cache");
+	$response->header("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+});
