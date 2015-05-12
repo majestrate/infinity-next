@@ -37,7 +37,7 @@ sub vcl_recv {
                 if (!client.ip ~ purge) {
                         return(synth(405, "Not allowed."));
                 }
-                return (purge);
+                return (hash);
         }
 
         # don't cache post
@@ -60,10 +60,28 @@ sub vcl_deliver {
         return (deliver);
 }
 
+
 sub vcl_miss {
-        return (fetch);
+        if (req.method == "PURGE")
+        {
+                return(synth(200,"Not in cache"));
+        }
 }
 
 sub vcl_hit {
-        return(deliver);
+        if (req.method == "PURGE")
+        {
+                ban(req.url);
+                return(synth(200,"Purged"));
+        }
+
+        if (!obj.ttl > 0s)
+        {
+                return(pass);
+        }
+}
+
+sub vcl_backend_response {
+        set beresp.grace = 120s;
+        return (deliver);
 }
